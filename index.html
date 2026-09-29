@@ -1,0 +1,709 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>OC 设定集</title>
+<style>
+:root{
+  --bg:#f7f5f2;--surface:#fff;--text:#1f1e24;--muted:#6b6873;--line:#e6e2dc;--chip:#efebe5;--danger:#c2413b;
+  --shadow:0 1px 2px rgba(0,0,0,.04),0 6px 20px rgba(0,0,0,.06);--oc:#6b6873;
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){--bg:#141318;--surface:#1d1c22;--text:#ecebf0;--muted:#9a97a3;--line:#2c2a33;--chip:#26242c;--danger:#e06a64;--shadow:0 1px 2px rgba(0,0,0,.3),0 6px 20px rgba(0,0,0,.35)}
+}
+:root[data-theme="dark"]{--bg:#141318;--surface:#1d1c22;--text:#ecebf0;--muted:#9a97a3;--line:#2c2a33;--chip:#26242c;--danger:#e06a64;--shadow:0 1px 2px rgba(0,0,0,.3),0 6px 20px rgba(0,0,0,.35)}
+
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--text);font:15px/1.7 -apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif}
+a{color:inherit}
+img{display:block;max-width:100%}
+button{font:inherit;color:inherit}
+input,textarea,select{width:100%;padding:8px 12px;border:1px solid var(--line);border-radius:10px;background:var(--surface);color:var(--text);font:inherit;min-width:0}
+textarea{resize:vertical;line-height:1.6}
+input:focus,textarea:focus,select:focus{outline:2px solid color-mix(in srgb,var(--oc) 50%,transparent);outline-offset:-1px}
+input[type=color]{width:44px;height:38px;padding:3px;cursor:pointer;flex:none}
+
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:4px;border:1px solid var(--line);background:var(--surface);border-radius:10px;padding:7px 14px;cursor:pointer;text-decoration:none;font-size:14px;white-space:nowrap;line-height:1.4}
+.btn.primary{background:var(--text);color:var(--bg);border-color:var(--text)}
+.btn.danger{color:var(--danger)}
+.btn.small{padding:4px 10px;font-size:13px}
+.x{border:none;background:none;color:var(--muted);cursor:pointer;font-size:20px;width:32px;flex:none}
+
+.top{position:sticky;top:0;z-index:10;background:color-mix(in srgb,var(--bg) 85%,transparent);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+.top-in{max-width:1080px;margin:0 auto;padding:12px 16px;display:flex;align-items:center;gap:14px}
+.brand{font-weight:700;text-decoration:none;margin-right:auto;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0}
+.nav{display:flex;gap:12px;flex:none}
+.nav a{text-decoration:none;color:var(--muted)}
+.nav a.on{color:var(--text);font-weight:600}
+.icon-btn{border:1px solid var(--line);background:var(--surface);border-radius:999px;width:34px;height:34px;cursor:pointer;flex:none}
+
+main{max-width:1080px;margin:0 auto;padding:24px 16px 64px}
+h1.page{font-size:28px;margin:8px 0 16px}
+
+/* home */
+.controls{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-bottom:20px}
+.search{flex:1 1 220px;padding:9px 14px}
+.chip{border:1px solid var(--line);background:var(--chip);border-radius:999px;padding:2px 12px;font-size:13px;cursor:pointer;white-space:nowrap}
+.chip.on{background:var(--text);color:var(--bg);border-color:var(--text)}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:16px}
+.card{background:var(--surface);border-radius:16px;overflow:hidden;box-shadow:var(--shadow);text-decoration:none;display:flex;flex-direction:column;border-top:4px solid var(--oc);transition:transform .15s}
+.card:hover{transform:translateY(-3px)}
+.card img{aspect-ratio:1;object-fit:cover;width:100%}
+.card-body{padding:12px 14px 14px}
+.card h3{margin:0;font-size:18px}
+.card p{margin:2px 0 8px;color:var(--muted);font-size:13px}
+.tags{display:flex;flex-wrap:wrap;gap:6px}
+.tag{font-size:12px;padding:0 8px;border-radius:999px;background:color-mix(in srgb,var(--oc) 15%,transparent);color:color-mix(in srgb,var(--oc) 70%,var(--text))}
+.empty{color:var(--muted);text-align:center;padding:48px 0}
+.empty .btn{margin-top:12px}
+
+/* detail */
+.bar{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-bottom:16px}
+.back{color:var(--muted);text-decoration:none}
+.profile{display:grid;grid-template-columns:260px 1fr;gap:28px;align-items:start}
+.avatar{border-radius:20px;box-shadow:var(--shadow);aspect-ratio:1;object-fit:cover;width:100%;border:3px solid var(--oc)}
+.profile h1{margin:0;font-size:32px;line-height:1.2}
+.profile .en{color:var(--muted);margin-left:8px;font-size:16px;font-weight:400}
+.tagline{color:var(--muted);margin:6px 0 12px}
+.info{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:8px;margin:18px 0}
+.info div{background:var(--surface);border-radius:10px;padding:8px 12px;box-shadow:var(--shadow)}
+.info dt{font-size:12px;color:var(--muted)}
+.info dd{margin:0;font-weight:600}
+.palette{display:flex;flex-wrap:wrap;gap:8px}
+.sw{border:none;cursor:pointer;border-radius:10px;width:64px;padding:0;background:var(--surface);box-shadow:var(--shadow);overflow:hidden;font-size:11px;color:var(--muted)}
+.sw span{display:block;height:40px}
+section{margin-top:36px}
+section h2{font-size:18px;margin:0 0 12px;padding-left:10px;border-left:4px solid var(--oc)}
+.prose p{margin:0 0 10px}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.box{background:var(--surface);border-radius:14px;padding:14px 16px;box-shadow:var(--shadow)}
+.box h4{margin:0 0 6px;font-size:14px;color:var(--muted)}
+.box ul{margin:0;padding-left:18px}
+.rels{display:flex;flex-wrap:wrap;gap:10px}
+.rel{display:flex;align-items:center;gap:10px;background:var(--surface);border-radius:999px;padding:4px 14px 4px 4px;box-shadow:var(--shadow);text-decoration:none}
+.rel img{width:36px;height:36px;border-radius:50%;object-fit:cover}
+.rel small{color:var(--muted);display:block;line-height:1.2}
+.gallery{display:grid;grid-template-columns:repeat(auto-fill,minmax(170px,1fr));gap:12px}
+.shot{border:none;padding:0;background:none;cursor:zoom-in;text-align:left}
+.shot img{aspect-ratio:4/5;object-fit:cover;width:100%;border-radius:12px;box-shadow:var(--shadow)}
+.shot div{font-size:12px;color:var(--muted);margin-top:4px}
+.add-tile{aspect-ratio:4/5;border:2px dashed var(--line);border-radius:12px;background:none;cursor:pointer;color:var(--muted);font-size:14px}
+.add-tile:hover{border-color:var(--oc);color:var(--text)}
+
+/* editor */
+.form{display:grid;gap:18px;max-width:780px}
+.form label,.dlg label{display:grid;gap:4px;font-size:13px;color:var(--muted)}
+.form label.btn,.dlg label.btn,.settings label.btn{display:inline-flex;color:var(--text)}
+.form-top{display:grid;grid-template-columns:180px 1fr;gap:20px;align-items:start}
+.av-edit{display:grid;gap:8px}
+.av-edit img{aspect-ratio:1;object-fit:cover;border-radius:16px;border:3px solid var(--oc);width:100%}
+.av-edit .btns{display:flex;gap:6px}
+.av-edit .btns>*{flex:1}
+.fields{display:grid;gap:12px}
+.pair{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.three{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px}
+.color-row{display:flex;gap:12px;align-items:end}
+.color-row label:last-child{flex:1}
+fieldset{border:1px solid var(--line);border-radius:14px;padding:10px 14px 14px;margin:0;display:grid;gap:8px;justify-items:start}
+fieldset>div{width:100%}
+legend{padding:0 6px;font-size:13px;color:var(--muted)}
+.row{display:flex;gap:8px;margin-bottom:8px}
+.row .k{flex:1}.row .v{flex:2}
+.pal-rows{display:flex;flex-wrap:wrap;gap:6px}
+.pal-item{display:flex;align-items:center}
+.hint{font-size:12px;color:var(--muted)}
+.form-actions{display:flex;gap:10px;justify-content:space-between;flex-wrap:wrap}
+.form-actions .right{display:flex;gap:10px;margin-left:auto}
+
+/* dialog */
+dialog.dlg{border:none;border-radius:18px;background:var(--surface);color:var(--text);padding:20px;width:min(560px,calc(100vw - 32px));max-height:calc(100dvh - 32px);box-shadow:0 20px 60px rgba(0,0,0,.3)}
+dialog.dlg::backdrop{background:rgba(0,0,0,.5)}
+.dlg h3{margin:0 0 14px}
+.dlg form{display:grid;gap:12px}
+.cd-img{display:flex;gap:12px;align-items:center}
+.cd-img img{width:96px;aspect-ratio:4/5;object-fit:cover;border-radius:10px}
+
+/* log & settings */
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:0 0 20px}
+.stat{background:var(--surface);border-radius:14px;padding:14px 16px;box-shadow:var(--shadow)}
+.stat b{display:block;font-size:24px}
+.stat span{color:var(--muted);font-size:13px}
+.table-wrap{overflow-x:auto;background:var(--surface);border-radius:14px;box-shadow:var(--shadow)}
+table{border-collapse:collapse;width:100%;min-width:560px;font-size:14px}
+th,td{padding:10px 14px;text-align:left;border-bottom:1px solid var(--line);white-space:nowrap}
+th{color:var(--muted);font-weight:500;font-size:13px}
+tr:last-child td{border-bottom:none}
+td .dot{display:inline-block;width:10px;height:10px;border-radius:50%;margin-right:6px;vertical-align:middle}
+.num{text-align:right;font-variant-numeric:tabular-nums}
+.settings{display:grid;gap:16px;max-width:640px}
+.settings .box{display:grid;gap:10px}
+.settings .box h4{margin:0}
+.inline{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+
+/* lightbox */
+.lb{position:fixed;inset:0;background:rgba(10,10,14,.92);display:none;z-index:50;align-items:center;justify-content:center;flex-direction:column;padding:16px}
+.lb.open{display:flex}
+.lb img{max-height:72vh;max-width:100%;border-radius:8px;object-fit:contain}
+.lb-cap{color:#ddd;margin-top:12px;text-align:center;font-size:14px}
+.lb-cap a{color:#fff}
+.lb-actions{display:flex;gap:8px;margin-top:10px}
+.lb-btn{position:absolute;background:rgba(255,255,255,.12);border:none;color:#fff;width:44px;height:44px;border-radius:50%;cursor:pointer;font-size:20px}
+.lb-close{top:16px;right:16px}.lb-prev{left:16px;top:50%}.lb-next{right:16px;top:50%}
+
+.toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%);background:var(--text);color:var(--bg);padding:8px 16px;border-radius:999px;font-size:13px;opacity:0;transition:opacity .2s;pointer-events:none;z-index:60}
+.toast.show{opacity:1}
+
+@media (max-width:720px){
+  .profile,.form-top{grid-template-columns:1fr}
+  .avatar{max-width:220px}
+  .av-edit{max-width:200px}
+  .two,.pair,.three{grid-template-columns:1fr}
+  .stats{gap:8px}
+  .stat b{font-size:18px}
+  .grid{grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:12px}
+  .lb-prev,.lb-next{top:auto;bottom:16px}
+}
+</style>
+</head>
+<body>
+<header class="top"><div class="top-in">
+  <a class="brand" href="#/" id="brand"></a>
+  <nav class="nav"><a href="#/" data-r="home">角色</a><a href="#/log" data-r="log">约稿</a><a href="#/settings" data-r="settings">设置</a></nav>
+  <button class="icon-btn" id="theme" aria-label="切换深浅色">◐</button>
+</div></header>
+<main id="app"></main>
+
+<div class="lb" id="lb">
+  <button class="lb-btn lb-close" data-lb="close" aria-label="关闭">✕</button>
+  <button class="lb-btn lb-prev" data-lb="prev" aria-label="上一张">‹</button>
+  <img id="lb-img" alt="">
+  <div class="lb-cap" id="lb-cap"></div>
+  <div class="lb-actions"><button class="btn small" data-lb="edit">编辑</button><button class="btn small danger" data-lb="del">删除</button></div>
+  <button class="lb-btn lb-next" data-lb="next" aria-label="下一张">›</button>
+</div>
+
+<dialog class="dlg" id="cd">
+  <h3 id="cd-title">添加约稿</h3>
+  <form id="cf">
+    <div class="cd-img">
+      <img id="cd-prev" alt="">
+      <label class="btn">选择图片<input type="file" accept="image/*" id="cd-file" hidden></label>
+    </div>
+    <label>作品名<input name="title" placeholder="比如：生日贺图"></label>
+    <div class="pair">
+      <label>画师<input name="artist"></label>
+      <label>画师主页<input name="link" placeholder="https://"></label>
+    </div>
+    <div class="three">
+      <label>日期<input name="date" type="month"></label>
+      <label>平台<input name="platform" list="plats"></label>
+      <label>价格 ¥<input name="price" type="number" min="0" step="any"></label>
+    </div>
+    <label>备注<textarea name="note" rows="2" placeholder="授权范围、加急、改稿次数……"></textarea></label>
+    <div class="form-actions"><div class="right">
+      <button type="button" class="btn" id="cd-cancel">取消</button>
+      <button type="submit" class="btn primary">保存</button>
+    </div></div>
+  </form>
+</dialog>
+<datalist id="plats"><option>米画师</option><option>画加</option><option>Skeb</option><option>VGen</option><option>小红书</option><option>微博</option><option>私下</option></datalist>
+<div class="toast" id="toast"></div>
+
+<script>
+const $ = (s, r = document) => r.querySelector(s);
+const $$ = (s, r = document) => [...r.querySelectorAll(s)];
+const esc = s => String(s ?? "").replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+const uid = () => Date.now().toString(36) + Math.random().toString(36).slice(2, 7);
+const split = s => (s || "").split(/[,，、\n]+/).map(x => x.trim()).filter(Boolean);
+const paras = t => (t || "").split("\n").filter(Boolean).map(p => `<p>${esc(p)}</p>`).join("");
+const COLORS = ["#5B7DB1", "#B5536B", "#E0A13A", "#6A9C78", "#8E6BB5", "#D2785A", "#4A9BA8", "#C25B8E"];
+
+let OCS = [];
+const IMG = new Map();          // 图片 id -> objectURL
+const SITE = { title: "OC 设定集" };
+const byId = id => OCS.find(o => o.id === id);
+
+/* ---------- IndexedDB ---------- */
+let db;
+const req = r => new Promise((res, rej) => { r.onsuccess = () => res(r.result); r.onerror = () => rej(r.error); });
+const done = t => new Promise((res, rej) => { t.oncomplete = res; t.onerror = t.onabort = () => rej(t.error); });
+const store = (name, mode = "readonly") => db.transaction(name, mode).objectStore(name);
+function openDB() {
+  const r = indexedDB.open("oc-site", 1);
+  r.onupgradeneeded = () => { const d = r.result; d.createObjectStore("ocs", { keyPath: "id" }); d.createObjectStore("images"); d.createObjectStore("meta"); };
+  return req(r);
+}
+// 浏览器数据库不可用时（比如在预览窗口里打开）退回内存模式
+function memDB() {
+  const data = { ocs: new Map(), images: new Map(), meta: new Map() };
+  const R = v => { const r = { result: v }; setTimeout(() => r.onsuccess?.()); return r; };
+  const S = n => { const m = data[n]; return {
+    get: k => R(m.get(k)), getAll: () => R([...m.values()]), getAllKeys: () => R([...m.keys()]),
+    put: (v, k) => { m.set(k ?? v.id, v); return R(); }, delete: k => { m.delete(k); return R(); }, clear: () => { m.clear(); return R(); },
+  }; };
+  return { transaction: () => { const t = { objectStore: S }; setTimeout(() => t.oncomplete?.()); return t; } };
+}
+async function loadAll() {
+  IMG.forEach(u => URL.revokeObjectURL(u)); IMG.clear();
+  OCS = (await req(store("ocs").getAll())).sort((a, b) => a.created - b.created);
+  const keys = await req(store("images").getAllKeys());
+  const vals = await req(store("images").getAll());
+  keys.forEach((k, i) => IMG.set(k, URL.createObjectURL(vals[i])));
+  SITE.title = (await req(store("meta").get("title"))) || "OC 设定集";
+  $("#brand").textContent = SITE.title;
+}
+async function saveOC(o) {
+  o.updated = Date.now();
+  await req(store("ocs", "readwrite").put(o));
+  const i = OCS.findIndex(x => x.id === o.id);
+  i < 0 ? OCS.push(o) : (OCS[i] = o);
+}
+async function putImage(blob) {
+  const id = uid();
+  await req(store("images", "readwrite").put(blob, id));
+  IMG.set(id, URL.createObjectURL(blob));
+  return id;
+}
+async function delImage(id) {
+  if (!id) return;
+  await req(store("images", "readwrite").delete(id));
+  URL.revokeObjectURL(IMG.get(id)); IMG.delete(id);
+}
+async function deleteOC(id) {
+  const o = byId(id);
+  for (const img of [o.avatar, ...o.gallery.map(g => g.img)]) await delImage(img);
+  await req(store("ocs", "readwrite").delete(id));
+  OCS = OCS.filter(x => x.id !== id);
+  for (const x of OCS) if (x.relations.some(r => r.id === id)) {
+    x.relations = x.relations.filter(r => r.id !== id);
+    await saveOC(x);
+  }
+}
+
+/* ---------- 图片 ---------- */
+async function compress(file, max) {
+  if (file.type === "image/gif") return file;
+  const bmp = await createImageBitmap(file);
+  const k = Math.min(1, max / Math.max(bmp.width, bmp.height));
+  const c = document.createElement("canvas");
+  c.width = Math.round(bmp.width * k); c.height = Math.round(bmp.height * k);
+  c.getContext("2d").drawImage(bmp, 0, 0, c.width, c.height);
+  return new Promise(r => c.toBlob(b => r(b && b.size < file.size ? b : file), "image/webp", 0.9));
+}
+function shade(hex, amt) {
+  const n = parseInt(hex.slice(1), 16);
+  const c = v => Math.max(0, Math.min(255, v + amt)).toString(16).padStart(2, "0");
+  return "#" + c(n >> 16) + c((n >> 8) & 255) + c(n & 255);
+}
+function ph(label, color, w = 600, h = 600) {
+  const size = Math.round(Math.min(w, h) / (label.length > 2 ? 6 : 3.2));
+  const svg = `<svg xmlns='http://www.w3.org/2000/svg' width='${w}' height='${h}' viewBox='0 0 ${w} ${h}'><defs><linearGradient id='g' x1='0' y1='0' x2='1' y2='1'><stop offset='0' stop-color='${color}'/><stop offset='1' stop-color='${shade(color, -60)}'/></linearGradient></defs><rect width='100%' height='100%' fill='url(#g)'/><text x='50%' y='52%' dominant-baseline='middle' text-anchor='middle' font-family='sans-serif' font-weight='700' font-size='${size}' fill='rgba(255,255,255,.85)'>${esc(label)}</text></svg>`;
+  return "data:image/svg+xml;charset=utf-8," + encodeURIComponent(svg);
+}
+const avatarOf = o => IMG.get(o.avatar) || ph((o.name || "?").slice(0, 2), o.color);
+const shotOf = (o, g) => IMG.get(g.img) || ph(g.title || o.name, o.color, 600, 750);
+
+function toast(msg) {
+  const t = $("#toast"); t.textContent = msg; t.classList.add("show");
+  clearTimeout(toast.t); toast.t = setTimeout(() => t.classList.remove("show"), 1400);
+}
+
+/* ---------- 首页 ---------- */
+const filter = { tag: "", q: "" };
+function renderHome() {
+  if (!OCS.length) {
+    $("#app").innerHTML = `<h1 class="page">${esc(SITE.title)}</h1>
+      <div class="empty">还没有角色<br><a class="btn primary" href="#/new">+ 新建第一个角色</a></div>`;
+    return;
+  }
+  const tags = [...new Set(OCS.flatMap(o => o.tags))];
+  if (filter.tag && !tags.includes(filter.tag)) filter.tag = "";
+  $("#app").innerHTML = `
+    <h1 class="page">${esc(SITE.title)}</h1>
+    <div class="controls">
+      <input class="search" id="q" placeholder="搜名字、设定……" value="${esc(filter.q)}">
+      <a class="btn primary" href="#/new">+ 新建角色</a>
+    </div>
+    ${tags.length ? `<div class="controls">
+      <button class="chip ${filter.tag ? "" : "on"}" data-tag="">全部</button>
+      ${tags.map(t => `<button class="chip ${filter.tag === t ? "on" : ""}" data-tag="${esc(t)}">${esc(t)}</button>`).join("")}
+    </div>` : ""}
+    <div class="grid" id="grid"></div>`;
+  $("#q").addEventListener("input", e => { filter.q = e.target.value.trim(); renderGrid(); });
+  $$("[data-tag]").forEach(b => b.addEventListener("click", () => {
+    filter.tag = b.dataset.tag;
+    $$("[data-tag]").forEach(x => x.classList.toggle("on", x === b));
+    renderGrid();
+  }));
+  renderGrid();
+}
+function renderGrid() {
+  const q = filter.q.toLowerCase();
+  const list = OCS.filter(o =>
+    (!filter.tag || o.tags.includes(filter.tag)) &&
+    (!q || [o.name, o.en, o.tagline, o.personality, o.story, ...o.tags].join(" ").toLowerCase().includes(q)));
+  $("#grid").innerHTML = list.length ? list.map(o => `
+    <a class="card" href="#/oc/${esc(o.id)}" style="--oc:${esc(o.color)}">
+      <img src="${avatarOf(o)}" alt="${esc(o.name)}" loading="lazy">
+      <div class="card-body">
+        <h3>${esc(o.name)}</h3>${o.tagline ? `<p>${esc(o.tagline)}</p>` : ""}
+        <div class="tags">${o.tags.map(t => `<span class="tag">${esc(t)}</span>`).join("")}</div>
+      </div>
+    </a>`).join("") : `<div class="empty" style="grid-column:1/-1">没有找到符合的角色</div>`;
+}
+
+/* ---------- 角色页 ---------- */
+function renderOC(id) {
+  const o = byId(id);
+  if (!o) { $("#app").innerHTML = `<div class="empty">找不到这个角色<br><a class="btn" href="#/">返回</a></div>`; return; }
+  document.title = `${o.name} · ${SITE.title}`;
+  const info = (o.info || []).filter(([k, v]) => k && v);
+  const rels = o.relations.map(r => ({ r, t: byId(r.id) })).filter(x => x.t);
+  $("#app").innerHTML = `
+  <div style="--oc:${esc(o.color)}">
+    <div class="bar"><a class="back" href="#/">← 所有角色</a><a class="btn" href="#/edit/${esc(o.id)}">编辑</a></div>
+    <div class="profile">
+      <img class="avatar" src="${avatarOf(o)}" alt="${esc(o.name)}">
+      <div>
+        <h1>${esc(o.name)}${o.en ? `<span class="en">${esc(o.en)}</span>` : ""}</h1>
+        ${o.tagline ? `<div class="tagline">${esc(o.tagline)}</div>` : ""}
+        <div class="tags">${o.tags.map(t => `<span class="tag">${esc(t)}</span>`).join("")}</div>
+        ${info.length ? `<dl class="info">${info.map(([k, v]) => `<div><dt>${esc(k)}</dt><dd>${esc(v)}</dd></div>`).join("")}</dl>` : ""}
+        ${o.palette.length ? `<div class="palette" style="margin-top:14px">${o.palette.map(c => `<button class="sw" data-color="${esc(c)}" title="点击复制"><span style="background:${esc(c)}"></span>${esc(c.toUpperCase())}</button>`).join("")}</div>` : ""}
+      </div>
+    </div>
+    ${o.personality ? `<section><h2>性格</h2><div class="prose">${paras(o.personality)}</div></section>` : ""}
+    ${o.story ? `<section><h2>背景故事</h2><div class="prose">${paras(o.story)}</div></section>` : ""}
+    ${o.likes.length || o.dislikes.length ? `<section><div class="two">
+      ${[["喜欢", o.likes], ["讨厌", o.dislikes]].filter(([, l]) => l.length).map(([h, l]) =>
+        `<div class="box"><h4>${h}</h4><ul>${l.map(x => `<li>${esc(x)}</li>`).join("")}</ul></div>`).join("")}
+    </div></section>` : ""}
+    ${rels.length ? `<section><h2>关系</h2><div class="rels">${rels.map(({ r, t }) =>
+      `<a class="rel" href="#/oc/${esc(t.id)}"><img src="${avatarOf(t)}" alt=""><span>${esc(t.name)}<small>${esc(r.type)}</small></span></a>`).join("")}</div></section>` : ""}
+    <section><h2>约稿图 · ${o.gallery.length}</h2><div class="gallery">
+      ${o.gallery.map((g, i) => `<button class="shot" data-i="${i}"><img src="${shotOf(o, g)}" alt="${esc(g.title)}" loading="lazy">
+        <div>${esc(g.title || "未命名")}${g.artist ? ` · ${esc(g.artist)}` : ""}</div></button>`).join("")}
+      <button class="add-tile" id="add-c">+ 添加约稿</button>
+    </div></section>
+  </div>`;
+  $$(".sw").forEach(b => b.addEventListener("click", () =>
+    navigator.clipboard.writeText(b.dataset.color).then(() => toast(`已复制 ${b.dataset.color}`), () => toast("复制失败"))));
+  $$(".shot").forEach(b => b.addEventListener("click", () => openLB(o, +b.dataset.i)));
+  $("#add-c").addEventListener("click", () => openCommission(o, null));
+}
+
+/* ---------- 新建 / 编辑角色 ---------- */
+const newOC = () => ({
+  id: uid(), name: "", en: "", color: COLORS[OCS.length % COLORS.length], tagline: "", tags: [], avatar: "",
+  info: [["年龄", ""], ["身高", ""], ["生日", ""]], palette: [], personality: "", story: "",
+  likes: [], dislikes: [], relations: [], gallery: [], created: Date.now(),
+});
+const infoRow = (k = "", v = "") => `<div class="row"><input class="k" placeholder="项目" value="${esc(k)}"><input class="v" placeholder="内容" value="${esc(v)}"><button type="button" class="x" data-rm>×</button></div>`;
+const palRow = c => `<div class="pal-item"><input type="color" value="${esc(c)}"><button type="button" class="x" data-rm>×</button></div>`;
+
+function renderEdit(id) {
+  const orig = id && byId(id);
+  if (id && !orig) { $("#app").innerHTML = `<div class="empty">找不到这个角色<br><a class="btn" href="#/">返回</a></div>`; return; }
+  const o = orig ? structuredClone(orig) : newOC();
+  const others = OCS.filter(x => x.id !== o.id);
+  const relRow = (r = { id: "", type: "" }) => `<div class="row"><select class="k rid">${others.map(x => `<option value="${esc(x.id)}" ${x.id === r.id ? "selected" : ""}>${esc(x.name)}</option>`).join("")}</select><input class="v rtype" placeholder="关系，比如：青梅竹马" value="${esc(r.type)}"><button type="button" class="x" data-rm>×</button></div>`;
+  const ed = { blob: null, removed: false };
+
+  $("#app").innerHTML = `
+  <div style="--oc:${esc(o.color)}" id="ed">
+    <div class="bar"><a class="back" href="${orig ? `#/oc/${esc(o.id)}` : "#/"}">← 取消</a></div>
+    <h1 class="page">${orig ? `编辑 ${esc(o.name)}` : "新建角色"}</h1>
+    <form class="form" id="f">
+      <div class="form-top">
+        <div class="av-edit">
+          <img id="av-prev" src="${avatarOf(o)}" alt="">
+          <div class="btns"><label class="btn small">上传头像<input type="file" accept="image/*" id="av-file" hidden></label><button type="button" class="btn small" id="av-rm">移除</button></div>
+        </div>
+        <div class="fields">
+          <div class="pair">
+            <label>名字 *<input name="name" required value="${esc(o.name)}"></label>
+            <label>英文名 / 别名<input name="en" value="${esc(o.en)}"></label>
+          </div>
+          <div class="color-row">
+            <label>代表色<input type="color" name="color" value="${esc(o.color)}"></label>
+            <label>一句话简介<input name="tagline" value="${esc(o.tagline)}"></label>
+          </div>
+          <label>标签<input name="tags" placeholder="用逗号分隔，比如：原创，星海世界观" value="${esc(o.tags.join("，"))}"></label>
+        </div>
+      </div>
+      <fieldset><legend>基本信息</legend><div id="info-rows">${o.info.map(([k, v]) => infoRow(k, v)).join("")}</div>
+        <button type="button" class="btn small" data-add="info">+ 添加一项</button></fieldset>
+      <fieldset><legend>配色</legend><div class="pal-rows" id="pal-rows">${o.palette.map(palRow).join("")}</div>
+        <button type="button" class="btn small" data-add="pal">+ 添加颜色</button></fieldset>
+      <label>性格<textarea name="personality" rows="4">${esc(o.personality)}</textarea></label>
+      <label>背景故事<textarea name="story" rows="7">${esc(o.story)}</textarea></label>
+      <div class="pair">
+        <label>喜欢<input name="likes" placeholder="逗号分隔" value="${esc(o.likes.join("，"))}"></label>
+        <label>讨厌<input name="dislikes" placeholder="逗号分隔" value="${esc(o.dislikes.join("，"))}"></label>
+      </div>
+      <fieldset><legend>关系</legend><div id="rel-rows">${o.relations.filter(r => byId(r.id)).map(relRow).join("")}</div>
+        ${others.length ? `<button type="button" class="btn small" data-add="rel">+ 添加关系</button>` : `<span class="hint">再建一个角色就能添加关系</span>`}</fieldset>
+      <div class="form-actions">
+        ${orig ? `<button type="button" class="btn danger" id="del">删除角色</button>` : ""}
+        <div class="right"><button type="submit" class="btn primary">保存</button></div>
+      </div>
+    </form>
+  </div>`;
+
+  const f = $("#f");
+  f.color.addEventListener("input", () => $("#ed").style.setProperty("--oc", f.color.value));
+  f.addEventListener("click", e => {
+    if (e.target.matches("[data-rm]")) e.target.parentElement.remove();
+    const add = e.target.dataset.add;
+    if (add === "info") $("#info-rows").insertAdjacentHTML("beforeend", infoRow());
+    if (add === "pal") $("#pal-rows").insertAdjacentHTML("beforeend", palRow(f.color.value));
+    if (add === "rel") $("#rel-rows").insertAdjacentHTML("beforeend", relRow());
+  });
+  $("#av-file").addEventListener("change", async e => {
+    const file = e.target.files[0]; if (!file) return;
+    ed.blob = await compress(file, 1200); ed.removed = false;
+    $("#av-prev").src = URL.createObjectURL(ed.blob);
+  });
+  $("#av-rm").addEventListener("click", () => {
+    ed.blob = null; ed.removed = true;
+    $("#av-prev").src = ph((f.name.value || "?").slice(0, 2), f.color.value);
+  });
+  if (orig) $("#del").addEventListener("click", async () => {
+    if (!confirm(`删除「${orig.name}」？它的约稿图也会一起删掉。`)) return;
+    await deleteOC(orig.id);
+    toast("已删除"); nav("#/");
+  });
+  f.addEventListener("submit", async e => {
+    e.preventDefault();
+    Object.assign(o, {
+      name: f.name.value.trim(), en: f.en.value.trim(), color: f.color.value, tagline: f.tagline.value.trim(),
+      tags: split(f.tags.value), personality: f.personality.value.trim(), story: f.story.value.trim(),
+      likes: split(f.likes.value), dislikes: split(f.dislikes.value),
+      info: $$("#info-rows .row").map(r => [$(".k", r).value.trim(), $(".v", r).value.trim()]).filter(([k]) => k),
+      palette: $$("#pal-rows input").map(i => i.value),
+      relations: $$("#rel-rows .row").map(r => ({ id: $(".rid", r).value, type: $(".rtype", r).value.trim() })).filter(r => r.id),
+    });
+    if (ed.blob) { const old = o.avatar; o.avatar = await putImage(ed.blob); await delImage(old); }
+    else if (ed.removed) { await delImage(o.avatar); o.avatar = ""; }
+    await saveOC(o);
+    toast("已保存"); nav(`#/oc/${o.id}`);
+  });
+  if (!orig) f.name.focus();
+}
+
+/* ---------- 约稿弹窗 ---------- */
+const cd = $("#cd"), cf = $("#cf");
+const cst = { o: null, i: null, blob: null };
+function openCommission(o, i) {
+  const g = i == null ? {} : o.gallery[i];
+  Object.assign(cst, { o, i, blob: null });
+  $("#cd-title").textContent = i == null ? `给 ${o.name} 添加约稿` : "编辑约稿";
+  $("#cd-prev").src = g.img ? IMG.get(g.img) : ph("图", o.color, 600, 750);
+  $("#cd-file").value = "";
+  for (const k of ["title", "artist", "link", "platform", "note"]) cf[k].value = g[k] || "";
+  cf.date.value = g.date || (i == null ? new Date().toISOString().slice(0, 7) : "");
+  cf.price.value = g.price ?? "";
+  cd.showModal();
+}
+$("#cd-file").addEventListener("change", async e => {
+  const file = e.target.files[0]; if (!file) return;
+  cst.blob = await compress(file, 2400);
+  $("#cd-prev").src = URL.createObjectURL(cst.blob);
+});
+$("#cd-cancel").addEventListener("click", () => cd.close());
+cf.addEventListener("submit", async e => {
+  e.preventDefault();
+  const { o, i } = cst;
+  const g = i == null ? { id: uid(), img: "" } : o.gallery[i];
+  for (const k of ["title", "artist", "link", "platform", "note", "date"]) g[k] = cf[k].value.trim();
+  g.price = cf.price.value === "" ? "" : Number(cf.price.value);
+  if (cst.blob) { const old = g.img; g.img = await putImage(cst.blob); await delImage(old); }
+  if (i == null) o.gallery.push(g);
+  await saveOC(o);
+  cd.close();
+  toast("已保存");
+  refresh();
+  if ($("#lb").classList.contains("open")) showLB();
+});
+
+/* ---------- 大图查看 ---------- */
+const lb = { o: null, i: 0 };
+function openLB(o, i) { lb.o = o; lb.i = i; showLB(); $("#lb").classList.add("open"); }
+function showLB() {
+  const g = lb.o.gallery[lb.i];
+  $("#lb-img").src = shotOf(lb.o, g);
+  const artist = g.link ? `<a href="${esc(g.link)}" target="_blank" rel="noopener">${esc(g.artist || g.link)}</a>` : esc(g.artist);
+  const meta = [g.date, g.platform, g.price !== "" && g.price != null ? `¥${g.price}` : ""].filter(Boolean).map(esc).join(" · ");
+  $("#lb-cap").innerHTML = `<b>${esc(g.title || "未命名")}</b>${artist ? ` · 画师 ${artist}` : ""}<br>${meta}${meta ? " · " : ""}${lb.i + 1}/${lb.o.gallery.length}${g.note ? `<br>${esc(g.note)}` : ""}`;
+}
+function stepLB(d) { const n = lb.o.gallery.length; lb.i = (lb.i + d + n) % n; showLB(); }
+const closeLB = () => $("#lb").classList.remove("open");
+$("#lb").addEventListener("click", async e => {
+  const a = e.target.closest("[data-lb]")?.dataset.lb;
+  if (a === "close" || e.target.id === "lb") closeLB();
+  else if (a === "prev") stepLB(-1);
+  else if (a === "next") stepLB(1);
+  else if (a === "edit") openCommission(lb.o, lb.i);
+  else if (a === "del") {
+    if (!confirm("删除这张约稿？")) return;
+    const [g] = lb.o.gallery.splice(lb.i, 1);
+    await delImage(g.img);
+    await saveOC(lb.o);
+    refresh();
+    if (!lb.o.gallery.length) closeLB();
+    else { lb.i = Math.min(lb.i, lb.o.gallery.length - 1); showLB(); }
+  }
+});
+document.addEventListener("keydown", e => {
+  if (!$("#lb").classList.contains("open") || cd.open) return;
+  if (e.key === "Escape") closeLB();
+  if (e.key === "ArrowLeft") stepLB(-1);
+  if (e.key === "ArrowRight") stepLB(1);
+});
+
+/* ---------- 约稿记录 ---------- */
+function renderLog() {
+  const rows = OCS.flatMap(o => o.gallery.map(g => ({ o, g }))).sort((a, b) => (b.g.date || "").localeCompare(a.g.date || ""));
+  const total = rows.reduce((s, r) => s + (Number(r.g.price) || 0), 0);
+  const artists = new Set(rows.map(r => r.g.artist).filter(Boolean)).size;
+  $("#app").innerHTML = `
+    <h1 class="page">约稿记录</h1>
+    <div class="stats">
+      <div class="stat"><b>${rows.length}</b><span>张约稿</span></div>
+      <div class="stat"><b>${artists}</b><span>位画师</span></div>
+      <div class="stat"><b>¥${total.toLocaleString()}</b><span>总花费</span></div>
+    </div>
+    <div class="table-wrap"><table>
+      <thead><tr><th>日期</th><th>角色</th><th>作品</th><th>画师</th><th>平台</th><th class="num">价格</th></tr></thead>
+      <tbody>${rows.map(({ o, g }) => `<tr>
+        <td>${esc(g.date) || "—"}</td>
+        <td><a href="#/oc/${esc(o.id)}"><span class="dot" style="background:${esc(o.color)}"></span>${esc(o.name)}</a></td>
+        <td>${esc(g.title) || "—"}</td>
+        <td>${g.link ? `<a href="${esc(g.link)}" target="_blank" rel="noopener">${esc(g.artist || "链接")}</a>` : esc(g.artist) || "—"}</td>
+        <td>${esc(g.platform) || "—"}</td>
+        <td class="num">${g.price !== "" && g.price != null ? "¥" + Number(g.price).toLocaleString() : "—"}</td>
+      </tr>`).join("") || `<tr><td colspan="6" class="empty">还没有约稿，去角色页添加</td></tr>`}</tbody>
+    </table></div>`;
+}
+
+/* ---------- 设置 / 备份 ---------- */
+const blobToDataURL = b => new Promise(r => { const fr = new FileReader(); fr.onload = () => r(fr.result); fr.readAsDataURL(b); });
+async function exportAll() {
+  const keys = await req(store("images").getAllKeys());
+  const vals = await req(store("images").getAll());
+  const images = {};
+  for (let i = 0; i < keys.length; i++) images[keys[i]] = await blobToDataURL(vals[i]);
+  const blob = new Blob([JSON.stringify({ app: "oc-site", version: 1, title: SITE.title, ocs: OCS, images })], { type: "application/json" });
+  const a = document.createElement("a");
+  a.href = URL.createObjectURL(blob);
+  a.download = `oc-backup-${new Date().toISOString().slice(0, 10)}.json`;
+  a.click();
+  setTimeout(() => URL.revokeObjectURL(a.href), 2000);
+}
+async function clearAll() {
+  const t = db.transaction(["ocs", "images", "meta"], "readwrite");
+  ["ocs", "images", "meta"].forEach(s => t.objectStore(s).clear());
+  await done(t);
+}
+async function importAll(file) {
+  let data;
+  try { data = JSON.parse(await file.text()); } catch { data = null; }
+  if (!data || !Array.isArray(data.ocs)) return alert("不是有效的备份文件");
+  if (!confirm(`导入会覆盖当前全部数据（现有 ${OCS.length} 个角色），继续？`)) return;
+  const imgs = await Promise.all(Object.entries(data.images || {}).map(async ([k, v]) => [k, await (await fetch(v)).blob()]));
+  await clearAll();
+  const t = db.transaction(["ocs", "images", "meta"], "readwrite");
+  imgs.forEach(([k, b]) => t.objectStore("images").put(b, k));
+  data.ocs.forEach(o => t.objectStore("ocs").put(o));
+  if (data.title) t.objectStore("meta").put(data.title, "title");
+  await done(t);
+  await loadAll();
+  toast(`已导入 ${OCS.length} 个角色`);
+  nav("#/");
+}
+function renderSettings() {
+  $("#app").innerHTML = `
+    <h1 class="page">设置</h1>
+    <div class="settings">
+      <div class="box"><h4>站点标题</h4>
+        <div class="inline"><input id="s-title" value="${esc(SITE.title)}" style="flex:1"><button class="btn" id="s-title-save">保存</button></div>
+      </div>
+      <div class="box"><h4>备份</h4>
+        <div class="hint">数据只存在这个浏览器里，清理浏览器数据或换电脑会丢。记得定期导出。</div>
+        <div class="inline">
+          <button class="btn primary" id="s-export">导出备份</button>
+          <label class="btn">导入备份<input type="file" accept=".json,application/json" id="s-import" hidden></label>
+          <span class="hint" id="s-usage"></span>
+        </div>
+      </div>
+      <div class="box"><h4>危险操作</h4>
+        <div><button class="btn danger" id="s-clear">清空全部数据</button></div>
+      </div>
+    </div>`;
+  $("#s-title-save").addEventListener("click", async () => {
+    SITE.title = $("#s-title").value.trim() || "OC 设定集";
+    await req(store("meta", "readwrite").put(SITE.title, "title"));
+    $("#brand").textContent = SITE.title; toast("已保存");
+  });
+  $("#s-export").addEventListener("click", exportAll);
+  $("#s-import").addEventListener("change", e => e.target.files[0] && importAll(e.target.files[0]));
+  $("#s-clear").addEventListener("click", async () => {
+    if (!confirm("清空全部角色和图片？没导出备份的话找不回来。")) return;
+    await clearAll(); await loadAll(); toast("已清空"); nav("#/");
+  });
+  navigator.storage?.estimate?.().then(e => { $("#s-usage").textContent = `已用 ${(e.usage / 1048576).toFixed(1)} MB`; });
+}
+
+/* ---------- 深浅色 ---------- */
+try { const t = localStorage.getItem("oc-theme"); if (t) document.documentElement.dataset.theme = t; } catch (e) {}
+$("#theme").addEventListener("click", () => {
+  const cur = document.documentElement.dataset.theme;
+  const dark = cur ? cur === "dark" : matchMedia("(prefers-color-scheme: dark)").matches;
+  document.documentElement.dataset.theme = dark ? "light" : "dark";
+  try { localStorage.setItem("oc-theme", dark ? "light" : "dark"); } catch (e) {}
+});
+
+/* ---------- 路由 ---------- */
+function refresh() {
+  const h = current.replace(/^#\/?/, "");
+  document.title = SITE.title;
+  const sec = h.startsWith("log") ? "log" : h.startsWith("settings") ? "settings" : "home";
+  $$(".nav a").forEach(a => a.classList.toggle("on", a.dataset.r === sec));
+  if (h.startsWith("oc/")) renderOC(decodeURIComponent(h.slice(3)));
+  else if (h.startsWith("edit/")) renderEdit(decodeURIComponent(h.slice(5)));
+  else if (h === "new") renderEdit(null);
+  else if (h === "log") renderLog();
+  else if (h === "settings") renderSettings();
+  else renderHome();
+}
+let current = location.hash || "#/";
+function nav(h) {
+  current = h;
+  try { history.pushState(null, "", h); } catch (e) {}
+  route();
+}
+function route() { closeLB(); if (cd.open) cd.close(); refresh(); window.scrollTo(0, 0); }
+document.addEventListener("click", e => {
+  const a = e.target.closest('a[href^="#"]');
+  if (!a) return;
+  e.preventDefault();
+  nav(a.getAttribute("href"));
+});
+addEventListener("popstate", () => { current = location.hash || "#/"; route(); });
+addEventListener("hashchange", () => { current = location.hash || "#/"; route(); });
+
+(async () => {
+  try { db = await openDB(); navigator.storage?.persist?.(); }
+  catch (e) {
+    db = memDB();
+    document.querySelector(".top").insertAdjacentHTML("afterend",
+      `<div style="background:#c2413b;color:#fff;padding:8px 16px;font-size:13px;text-align:center">当前窗口存不了数据，关掉就没了。请在访达里右键这个文件 → 打开方式 → Chrome</div>`);
+  }
+  await loadAll();
+  route();
+})();
+</script>
+</body>
+</html>
